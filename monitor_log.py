@@ -86,7 +86,7 @@ def monitor_log_file():
     last_success_time = datetime.now()
     last_restart_time = datetime.now()
     should_attempt_restart_node = False
-    last_size = 0
+    last_size = -1 # Set this to 0 if you want to read the log file from the beginning for testing
 
     error_timestamp_queue = queue.Queue(maxsize=ERROR_THRESHOLD)
     down_timestamp_queue = queue.Queue(maxsize=DOWN_THRESHOLD)
@@ -95,8 +95,12 @@ def monitor_log_file():
         try:
             if os.path.exists(LOG_FILE_PATH):
                 current_size = os.path.getsize(LOG_FILE_PATH)
-
-                if current_size < last_size:
+                # This is the first read after startup, so start at the end of the file and only check logs
+                # that appear from now on. Otherwise we'll alert on all the stuff that happened in the past. 
+                if last_size < 0:
+                    last_size = current_size
+                elif current_size < last_size:
+                    # Log has been rotated or truncated, so start from the beginning
                     last_size = 0
 
                 if current_size > last_size:
@@ -145,7 +149,6 @@ def monitor_log_file():
                        
         except Exception as e:
             notify_and_log_error(f"Error in restart script: {e}")
-
 
         time.sleep(1)
 
