@@ -14,6 +14,7 @@ CHAT_ID = <chat id>
 
 # Log file and error threshold
 LOG_FILE_PATH = '/home/dagger/config.log'
+ERROR_LOG_FILE_PATH = '/home/dagger/monitor_error_log.txt'
 ERROR_THRESHOLD = 10  # Adjust as needed
 DOWN_THRESHOLD = 5  # Adjust as needed
 RESTART_WINDOW = timedelta(minutes=1) # The errors or down messages have to happen within this time window 
@@ -31,7 +32,7 @@ async def send_telegram_message(message):
         # Implement retry logic if needed
 
 def log_error(message):
-    with open("/home/dagger/monitor_error_log.txt", "a") as error_log:
+    with open(ERROR_LOG_FILE_PATH, "a") as error_log:
         error_log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
 
 def notify_and_log_error(message):
@@ -89,7 +90,7 @@ def monitor_log_file():
 
     error_timestamp_queue = queue.Queue(maxsize=ERROR_THRESHOLD)
     down_timestamp_queue = queue.Queue(maxsize=DOWN_THRESHOLD)
-    
+
     while True:
         try:
             if os.path.exists(LOG_FILE_PATH):
