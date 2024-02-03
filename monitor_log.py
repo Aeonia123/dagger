@@ -100,12 +100,13 @@ def monitor_log_file():
                             if '[ERROR]' in line:
                                 # asyncio.run(send_telegram_message(f"Node has error!\n{line}")) // This can be very spammy 
                                 latest_timestamp = get_timestamp_from_line(line) 
-                                error_timestamp_queue.put(latest_timestamp)
-                                if errors_within_window(error_timestamp_queue, ERROR_THRESHOLD, RESTART_WINDOW, latest_timestamp):
-                                    # Don't restart because peer connection timeout errors are generally ok. Just notify if we
-                                    # get a lot of them. 
-                                    asyncio.run(send_telegram_message(f"{ERROR_THRESHOLD} errors detected within {RESTART_WINDOW} mins."))
-                                    # should_restart_node = True
+                                if latest_timestamp:
+                                    error_timestamp_queue.put(latest_timestamp)
+                                    if errors_within_window(error_timestamp_queue, ERROR_THRESHOLD, RESTART_WINDOW, latest_timestamp):
+                                        # Don't restart because peer connection timeout errors are generally ok. Just notify if we
+                                        # get a lot of them. 
+                                        asyncio.run(send_telegram_message(f"{ERROR_THRESHOLD} errors detected within {RESTART_WINDOW} mins."))
+                                        # should_restart_node = True
                                 else:
                                     log_error(f"Couldn't get a time stamp from the line: {line}")
                                     asyncio.run(send_telegram_message(f"Couldn't get a time stamp from the line: {line}"))
