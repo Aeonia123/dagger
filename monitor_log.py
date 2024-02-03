@@ -19,7 +19,6 @@ DOWN_THRESHOLD = 5  # Adjust as needed
 MAX_DOWN_MINUTES = timedelta(minutes=1) # Max time between success messages
 RESTART_WINDOW = timedelta(minutes=1) # The errors or down messages have to happen within this time window 
 RESTART_PAUSE = timedelta(minutes=1) # Only try to restart once a minute
-CHUNK_SIZE = 1024 * 1024  # 1MB chunk size, adjust as needed
 
 
 async def send_telegram_message(message):
