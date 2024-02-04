@@ -12,6 +12,7 @@ import queue
 TOKEN = <telegram token>
 CHAT_ID = <chat id>
 
+# Log file and error threshold
 LOG_FILE_PATH = '/home/dagger/config.log'
 ERROR_LOG_FILE_PATH = '/home/dagger/monitor_error_log.txt'
 ERROR_THRESHOLD = 10  # Adjust as needed
@@ -89,6 +90,7 @@ def monitor_log_file():
 
   error_timestamp_queue = queue.Queue(maxsize=ERROR_THRESHOLD)
   down_timestamp_queue = queue.Queue(maxsize=DOWN_THRESHOLD)
+
   while True:
     try:
       if os.path.exists(LOG_FILE_PATH):
