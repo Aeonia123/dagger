@@ -9,8 +9,9 @@ import time
 import queue
 
 # Telegram bot settings
-TOKEN = 'my_telegram_token'
-CHAT_ID = 'chat_id'
+# Replace with your actual bot token and chat id
+TOKEN = 'your_bot_token'
+CHAT_ID = 'your_chat_id'
 
 # Log file and error threshold
 LOG_FILE_PATH = '/home/dagger/config.log'
