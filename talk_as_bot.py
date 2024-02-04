@@ -12,8 +12,11 @@ from telegram import Bot
 
 # To get the chat id:
 # 1. Add the bot to your chat
-# 2. Go here: https://api.telegram.org/bot<your_bot_token>/getUpdates
-# 3. If all you see is {"ok":true,"result":[]}, remove and re-add the bot from your chat and try again
+# 2a. Go here: https://api.telegram.org/bot<your_bot_token>/getUpdates
+# OR
+# 2b. run get_chat_token.py in this repo which does the same check
+# 3. If all you see is {"ok":true,"result":[]}, or the script can't get the token, 
+# remove and re-add the bot from your chat and try again
 
 
 BOT_TOKEN = 'your_bot_token'
