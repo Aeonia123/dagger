@@ -2,6 +2,10 @@
 import asyncio
 from telegram import Bot
 
+# This will only work if you've interacted with your bot recently
+# If it doesn't work, try messaging your bot in the chat, or removing
+# and re-adding.
+
 # Replace 'your_bot_token' with your actual bot token
 bot_token = 'your_bot_token'
 
