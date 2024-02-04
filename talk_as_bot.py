@@ -8,7 +8,7 @@ from telegram import Bot
 # and add the chat id. Then run this script with a message
 # and see if you get it in your chat.
 
-# Example: talk_as_bot "hello world!"
+# Example: talk_as_bot.py "hello world!"
 
 # To get the chat id:
 # 1. Add the bot to your chat
@@ -23,7 +23,7 @@ BOT_TOKEN = 'your_bot_token'
 CHAT_ID = 'your_chat_id'
 
 if len(sys.argv) != 2:
-    print("Usage: talk_as_bot <message>")
+    print("Usage: talk_as_bot.py <message>")
     sys.exit(1)
 
 user_input = sys.argv[1]
