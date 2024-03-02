@@ -75,7 +75,7 @@ def maybe_restart_node(last_restart_time):
   if(datetime.now() - last_restart_time >= RESTART_PAUSE):
     asyncio.run(send_telegram_message(f"*** Restarting node! ***"))
     try:
-      result = subprocess.run(RESTART_COMMAND, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+      subprocess.run(RESTART_COMMAND, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
       restarted = True
     except subprocess.CalledProcessError as e:
       notify_and_log_error(f"Error restarting the node: {e}")
@@ -121,7 +121,12 @@ def monitor_log_file():
                     asyncio.run(send_telegram_message(f"{DOWN_THRESHOLD} downs detected within {RESTART_WINDOW} mins."))
                     # should_attempt_restart_node = True
               if '[ERROR]' in line:
-                # asyncio.run(send_telegram_message(f"Node has error!\n{line}")) # This can be very spammy 
+                asyncio.run(send_telegram_message(f"Node has error!\n{line}")) # This can be very spammy
+                if 'Too many open files' in line:
+                  asyncio.run(send_telegram_message(f"Node has 'too many open files' error!\n"))
+                  should_attempt_restart_node = True
+                  break
+
                 latest_timestamp = get_timestamp_from_line(line)
                 if latest_timestamp:        
                   error_timestamp_queue.put(latest_timestamp)
